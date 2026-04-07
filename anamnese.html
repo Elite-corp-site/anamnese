@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anamnese — EliteCorpo</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--black:#06060e;--deep:#0b0b18;--lilas:#b484f7;--white:#ede8ff;--muted:#6a6585;--border:rgba(180,132,247,0.14);--glow:rgba(180,132,247,0.08)}
+body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;padding:3rem 1.5rem}
+.orb{position:fixed;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(124,63,221,0.1) 0%,transparent 70%);top:-150px;right:-150px;pointer-events:none;z-index:0}
+
+header{max-width:680px;margin:0 auto 3rem;display:flex;align-items:center;gap:0.8rem;position:relative;z-index:1}
+.logo-wrap{display:flex;align-items:center;gap:0.7rem;text-decoration:none}
+.logo-main{font-family:'Cinzel',serif;font-size:1rem;font-weight:900;letter-spacing:0.12em;color:var(--white)}
+.logo-main span{color:var(--lilas)}
+.logo-sub-text{font-size:0.45rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);margin-top:2px}
+
+.page-title{max-width:680px;margin:0 auto 3rem;position:relative;z-index:1}
+.tag{font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--lilas);margin-bottom:0.8rem;display:flex;align-items:center;gap:0.6rem}
+.tag::before{content:'';width:18px;height:1px;background:var(--lilas)}
+.page-title h1{font-family:'Cinzel',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;line-height:1.05;letter-spacing:0.01em}
+.page-title h1 em{color:var(--lilas);font-style:italic}
+.page-title p{color:rgba(237,232,255,0.4);font-size:0.88rem;line-height:1.7;margin-top:0.8rem;max-width:420px}
+
+.aform{max-width:680px;margin:0 auto;display:grid;gap:2px;position:relative;z-index:1}
+.fsec{background:rgba(255,255,255,0.015);border:1px solid var(--border)}
+.fsec-head{display:flex;align-items:center;gap:1rem;padding:1rem 1.5rem;background:rgba(180,132,247,0.03);border-bottom:1px solid var(--border);cursor:pointer;user-select:none;transition:background 0.2s}
+.fsec-head:hover{background:rgba(180,132,247,0.06)}
+.fsec-num{font-family:'Cinzel',serif;font-size:1.1rem;font-weight:900;color:var(--lilas)}
+.fsec-title{font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:500}
+.fsec-arrow{margin-left:auto;color:var(--muted);font-size:0.75rem;transition:transform 0.3s}
+.fsec-body{padding:1.5rem;display:grid;gap:1rem}
+.fsec.collapsed .fsec-body{display:none}
+.fsec.collapsed .fsec-arrow{transform:rotate(-90deg)}
+.frow{display:grid;gap:1rem}
+.frow.c2{grid-template-columns:1fr 1fr}
+.frow.c3{grid-template-columns:1fr 1fr 1fr}
+.frow.c4{grid-template-columns:1fr 1fr 1fr 1fr}
+.fg{display:flex;flex-direction:column;gap:0.4rem}
+.fg label{font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted)}
+.fg input,.fg select,.fg textarea{background:rgba(180,132,247,0.04);border:1px solid rgba(180,132,247,0.12);color:var(--white);padding:0.6rem 0.85rem;border-radius:2px;font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:300;transition:border-color 0.2s;outline:none}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:rgba(180,132,247,0.45)}
+.fg select option{background:var(--deep);color:var(--white)}
+.fg textarea{resize:vertical;min-height:76px}
+.cbgroup{display:flex;flex-direction:column;gap:0.5rem}
+.cbgroup>label{font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:0.2rem}
+.cbopts{display:flex;flex-wrap:wrap;gap:0.5rem}
+.cbopt{display:flex;align-items:center;gap:0.45rem}
+.cbopt input[type="checkbox"]{appearance:none;width:14px;height:14px;border:1px solid rgba(180,132,247,0.25);border-radius:2px;background:rgba(180,132,247,0.04);cursor:pointer;flex-shrink:0;transition:background 0.15s;position:relative}
+.cbopt input[type="checkbox"]:checked{background:var(--lilas);border-color:var(--lilas)}
+.cbopt input[type="checkbox"]:checked::after{content:'';position:absolute;left:3px;top:1px;width:5px;height:8px;border:2px solid var(--black);border-top:none;border-left:none;transform:rotate(45deg)}
+.cbopt span{font-size:0.82rem;color:rgba(237,232,255,0.6);cursor:pointer}
+.fsubmit{max-width:680px;margin:2px auto 0;display:flex;justify-content:flex-end;gap:1rem;padding:1.5rem;background:rgba(180,132,247,0.02);border:1px solid var(--border);flex-wrap:wrap;position:relative;z-index:1}
+.btn-clear{background:transparent;color:var(--white);padding:0.85rem 2rem;border:1px solid var(--border);border-radius:2px;font-family:'DM Sans',sans-serif;font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:border-color 0.2s}
+.btn-clear:hover{border-color:var(--lilas)}
+.btn-submit{background:var(--lilas);color:var(--black);padding:0.9rem 2.5rem;border:none;border-radius:2px;font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;transition:box-shadow 0.3s,transform 0.2s}
+.btn-submit:hover{box-shadow:0 0 24px rgba(180,132,247,0.4);transform:translateY(-2px)}
+.success-msg{display:none;max-width:680px;margin:2rem auto;text-align:center;padding:3rem;border:1px solid rgba(180,132,247,0.2);border-radius:3px;background:rgba(180,132,247,0.04);position:relative;z-index:1}
+.success-msg h3{font-family:'Cinzel',serif;font-size:2rem;color:var(--lilas);margin-bottom:0.5rem}
+.success-msg p{color:rgba(237,232,255,0.5);font-size:0.9rem}
+
+@media(max-width:600px){
+  .frow.c2,.frow.c3,.frow.c4{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="orb"></div>
+
+<header>
+  <a class="logo-wrap" href="index.html">
+    <svg width="30" height="30" viewBox="0 0 44 44" fill="none">
+      <polygon points="22,3 38,12 38,32 22,41 6,32 6,12" fill="none" stroke="#b484f7" stroke-width="1.1"/>
+      <g transform="translate(22,22)">
+        <line x1="0" y1="-11" x2="0" y2="-15" stroke="#b484f7" stroke-width="1.4"/>
+        <path d="M-2.5,-12 L0,-16 L2.5,-12" fill="none" stroke="#b484f7" stroke-width="1.1" stroke-linejoin="round"/>
+        <line x1="0" y1="11" x2="0" y2="15" stroke="#b484f7" stroke-width="1.4"/>
+        <path d="M-2.5,12 L0,16 L2.5,12" fill="none" stroke="#b484f7" stroke-width="1.1" stroke-linejoin="round"/>
+        <line x1="-11" y1="0" x2="-15" y2="0" stroke="#b484f7" stroke-width="1.4"/>
+        <path d="M-12,-2.5 L-16,0 L-12,2.5" fill="none" stroke="#b484f7" stroke-width="1.1" stroke-linejoin="round"/>
+        <line x1="11" y1="0" x2="15" y2="0" stroke="#b484f7" stroke-width="1.4"/>
+        <path d="M12,-2.5 L16,0 L12,2.5" fill="none" stroke="#b484f7" stroke-width="1.1" stroke-linejoin="round"/>
+        <line x1="-8" y1="-8" x2="-11" y2="-11" stroke="#b484f7" stroke-width="1.4"/>
+        <line x1="8" y1="8" x2="11" y2="11" stroke="#b484f7" stroke-width="1.4"/>
+        <line x1="8" y1="-8" x2="11" y2="-11" stroke="#b484f7" stroke-width="1.4"/>
+        <line x1="-8" y1="8" x2="-11" y2="11" stroke="#b484f7" stroke-width="1.4"/>
+        <circle cx="0" cy="0" r="7" fill="#0a0818" stroke="#b484f7" stroke-width="0.9"/>
+        <circle cx="0" cy="0" r="3" fill="#b484f7"/>
+      </g>
+    </svg>
+    <div>
+      <div class="logo-main"><span>ELITE</span>CORPO</div>
+      <div class="logo-sub-text">por Nilton Helio</div>
+    </div>
+  </a>
+</header>
+
+<div class="page-title">
+  <p class="tag">Ficha de avaliação</p>
+  <h1>Anamnese<br><em>do aluno</em></h1>
+  <p>Preencha com atenção. Ao enviar, suas respostas chegam direto no WhatsApp do Nilton.</p>
+</div>
+
+<div class="aform" id="anamneseForm">
+  <div class="fsec">
+    <div class="fsec-head" onclick="toggleSec(this)"><span class="fsec-num">I</span><span class="fsec-title">Dados Pessoais</span><span class="fsec-arrow">▼</span></div>
+    <div class="fsec-body">
+      <div class="frow"><div class="fg" style="grid-column:1/-1"><label>Nome completo</label><input type="text" placeholder="Seu nome completo"></div></div>
+      <div class="frow c3">
+        <div class="fg"><label>Data de nascimento</label><input type="date"></div>
+        <div class="fg"><label>Idade</label><input type="number" placeholder="Anos"></div>
+        <div class="fg"><label>Sexo</label><select><option value="">Selecione</option><option>Masculino</option><option>Feminino</option><option>Prefiro não informar</option></select></div>
+      </div>
+      <div class="frow c4">
+        <div class="fg"><label>Peso (kg)</label><input type="number" placeholder="75"></div>
+        <div class="fg"><label>Altura (cm)</label><input type="number" placeholder="175"></div>
+        <div class="fg"><label>WhatsApp</label><input type="tel" placeholder="(17) 99999-9999"></div>
+        <div class="fg"><label>E-mail</label><input type="email" placeholder="seu@email.com"></div>
+      </div>
+    </div>
+  </div>
+  <div class="fsec">
+    <div class="fsec-head" onclick="toggleSec(this)"><span class="fsec-num">II</span><span class="fsec-title">Saúde e Lesões</span><span class="fsec-arrow">▼</span></div>
+    <div class="fsec-body">
+      <div class="cbgroup"><label>Possui alguma dessas condições?</label><div class="cbopts"><label class="cbopt"><input type="checkbox"><span>Hipertensão</span></label><label class="cbopt"><input type="checkbox"><span>Diabetes</span></label><label class="cbopt"><input type="checkbox"><span>Doença cardíaca</span></label><label class="cbopt"><input type="checkbox"><span>Colesterol alto</span></label><label class="cbopt"><input type="checkbox"><span>Asma / bronquite</span></label><label class="cbopt"><input type="checkbox"><span>Hipotireoidismo</span></label><label class="cbopt"><input type="checkbox"><span>Ansiedade / depressão</span></label><label class="cbopt"><input type="checkbox"><span>Nenhuma</span></label></div></div>
+      <div class="cbgroup"><label>Já teve alguma lesão?</label><div class="cbopts"><label class="cbopt"><input type="checkbox"><span>Joelho</span></label><label class="cbopt"><input type="checkbox"><span>Ombro</span></label><label class="cbopt"><input type="checkbox"><span>Coluna lombar</span></label><label class="cbopt"><input type="checkbox"><span>Tornozelo</span></label><label class="cbopt"><input type="checkbox"><span>Quadril</span></label><label class="cbopt"><input type="checkbox"><span>Nenhuma</span></label></div></div>
+      <div class="fg"><label>Detalhes sobre lesões ou condições</label><textarea placeholder="Descreva o que achar importante..."></textarea></div>
+      <div class="frow c2"><div class="fg"><label>Usa medicamentos?</label><input type="text" placeholder="Quais?"></div><div class="fg"><label>Há quanto tempo?</label><input type="text" placeholder="Ex: 2 anos"></div></div>
+    </div>
+  </div>
+  <div class="fsec">
+    <div class="fsec-head" onclick="toggleSec(this)"><span class="fsec-num">III</span><span class="fsec-title">Objetivos e Disponibilidade</span><span class="fsec-arrow">▼</span></div>
+    <div class="fsec-body">
+      <div class="cbgroup"><label>Principal objetivo</label><div class="cbopts"><label class="cbopt"><input type="checkbox"><span>Perda de gordura</span></label><label class="cbopt"><input type="checkbox"><span>Ganho de massa muscular</span></label><label class="cbopt"><input type="checkbox"><span>Condicionamento físico</span></label><label class="cbopt"><input type="checkbox"><span>Saúde e bem-estar</span></label><label class="cbopt"><input type="checkbox"><span>Reabilitação</span></label><label class="cbopt"><input type="checkbox"><span>Performance esportiva</span></label></div></div>
+      <div class="frow c3">
+        <div class="fg"><label>Dias por semana</label><select><option value="">Selecione</option><option>2 dias</option><option>3 dias</option><option>4 dias</option><option>5 dias</option><option>6 dias</option></select></div>
+        <div class="fg"><label>Duração por sessão</label><select><option value="">Selecione</option><option>30 min</option><option>45 min</option><option>60 min</option><option>75 min</option><option>90 min</option></select></div>
+        <div class="fg"><label>Melhor horário</label><select><option value="">Selecione</option><option>Manhã (6h–12h)</option><option>Tarde (12h–18h)</option><option>Noite (18h–22h)</option><option>Variado</option></select></div>
+      </div>
+      <div class="fg"><label>Descreva seu objetivo</label><textarea placeholder="Ex: quero perder 10kg até dezembro..."></textarea></div>
+    </div>
+  </div>
+  <div class="fsec">
+    <div class="fsec-head" onclick="toggleSec(this)"><span class="fsec-num">IV</span><span class="fsec-title">Hábitos Alimentares</span><span class="fsec-arrow">▼</span></div>
+    <div class="fsec-body">
+      <div class="cbgroup"><label>Alimentação atual</label><div class="cbopts"><label class="cbopt"><input type="checkbox"><span>Sem restrição</span></label><label class="cbopt"><input type="checkbox"><span>Vegetariano</span></label><label class="cbopt"><input type="checkbox"><span>Vegano</span></label><label class="cbopt"><input type="checkbox"><span>Low carb</span></label><label class="cbopt"><input type="checkbox"><span>Intolerância a lactose</span></label><label class="cbopt"><input type="checkbox"><span>Intolerância a glúten</span></label></div></div>
+      <div class="frow c3">
+        <div class="fg"><label>Refeições por dia</label><select><option value="">Selecione</option><option>1–2</option><option>3</option><option>4</option><option>5 ou mais</option></select></div>
+        <div class="fg"><label>Água por dia (litros)</label><input type="number" placeholder="2" step="0.5"></div>
+        <div class="fg"><label>Consome álcool?</label><select><option value="">Selecione</option><option>Não</option><option>Raramente</option><option>Fins de semana</option><option>Frequentemente</option></select></div>
+      </div>
+      <div class="fg"><label>Restrições ou alimentos que não gosta</label><textarea placeholder="Liste o que evita..."></textarea></div>
+    </div>
+  </div>
+  <div class="fsec">
+    <div class="fsec-head" onclick="toggleSec(this)"><span class="fsec-num">V</span><span class="fsec-title">Condicionamento Atual</span><span class="fsec-arrow">▼</span></div>
+    <div class="fsec-body">
+      <div class="cbgroup"><label>Nível de experiência</label><div class="cbopts"><label class="cbopt"><input type="checkbox"><span>Iniciante (nunca treinou)</span></label><label class="cbopt"><input type="checkbox"><span>Iniciante (menos de 6 meses)</span></label><label class="cbopt"><input type="checkbox"><span>Intermediário (6 meses – 2 anos)</span></label><label class="cbopt"><input type="checkbox"><span>Avançado (mais de 2 anos)</span></label></div></div>
+      <div class="cbgroup"><label>Onde vai treinar</label><div class="cbopts"><label class="cbopt"><input type="checkbox"><span>Academia completa</span></label><label class="cbopt"><input type="checkbox"><span>Em casa (com equipamentos)</span></label><label class="cbopt"><input type="checkbox"><span>Em casa (sem equipamentos)</span></label><label class="cbopt"><input type="checkbox"><span>Ao ar livre</span></label></div></div>
+      <div class="fg"><label>Como você se sente fisicamente hoje?</label><textarea placeholder="Descreva sua rotina atual, energia, sono..."></textarea></div>
+    </div>
+  </div>
+</div>
+
+<div class="fsubmit">
+  <button class="btn-clear" onclick="resetForm()">Limpar</button>
+  <button class="btn-submit" onclick="submitForm()">Enviar para o Nilton</button>
+</div>
+
+<div class="success-msg" id="successMsg">
+  <h3>Enviado!</h3>
+  <p>Nilton vai te responder em breve pelo WhatsApp.</p>
+</div>
+
+<script>
+function toggleSec(h){h.parentElement.classList.toggle('collapsed')}
+function submitForm(){
+  let msg='Ol%C3%A1%20Nilton!%20Segue%20minha%20anamnese:%0A%0A';
+  document.querySelectorAll('#anamneseForm .fg').forEach(g=>{
+    const label=g.querySelector('label')?.textContent;
+    const el=g.querySelector('input:not([type=checkbox]),select,textarea');
+    if(el&&el.value&&label){const l=encodeURIComponent(label+': ');const v=encodeURIComponent(el.value);msg+=`*${l}*%20${v}%0A`;}
+  });
+  document.querySelectorAll('#anamneseForm .cbgroup').forEach(g=>{
+    const label=g.querySelector('label')?.textContent;
+    const checked=[...g.querySelectorAll('input:checked')].map(c=>c.nextElementSibling?.textContent).join(', ');
+    if(checked&&label){const l=encodeURIComponent(label+': ');const v=encodeURIComponent(checked);msg+=`*${l}*%20${v}%0A`;}
+  });
+  window.open('https://wa.me/5517991394831?text='+msg,'_blank');
+  document.getElementById('anamneseForm').style.display='none';
+  document.querySelector('.fsubmit').style.display='none';
+  document.getElementById('successMsg').style.display='block';
+}
+function resetForm(){
+  document.querySelectorAll('#anamneseForm input,#anamneseForm select,#anamneseForm textarea').forEach(el=>{
+    if(el.type==='checkbox')el.checked=false;else el.value='';
+  });
+}
+</script>
+</body>
+</html>
